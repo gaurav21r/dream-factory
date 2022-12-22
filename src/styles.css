@@ -1,0 +1,32 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Proxima Nova Condensed", "sans-serif";
+  font-weight: 900;
+  background-color: #0277BD;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+iframe {
+  display: none;
+}
+
+@keyframes animName {
+  0%{
+     transform: rotate(0deg);
+    }
+ 100%{
+     transform: rotate(-360deg);
+    }
+ }
+ 
+ 
+
+
