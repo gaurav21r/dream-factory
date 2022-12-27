@@ -2,7 +2,7 @@ import "../styles.css";
 import React from 'react';
 import theme from '../ThemeContext'
 import AppHeader from "../AppHeader";
-import {Autocomplete, TextField, Button, Radio, FormControlLabel} from "@mui/material";
+import {TextField, Button} from "@mui/material";
 import SearchBar from '../SearchBar';
 import NotifySection from './NotifySection';
 import SearchResults from './SearchResults';
@@ -60,23 +60,51 @@ export default function SearchView({firestore, fuseInstance}) {
           ...theme.card
         }}
       >
-        <section name="RadioButtonsSection" style={styles.RadioButtonsSection}>
-          <FormControlLabel
-            value="top"
-            control={<Radio />}
-            label="Add as Item to Project"
-            labelPlacement="end"
-            name="addOptionRadio"
+        <section name="SearchTextboxSection" style={styles.SearchTextboxSection}>
+          <TextField name="SearchTextbox"
+            placeholder="Search or Add Item"
+            autoFocus
+            style={styles.searchTextbox}
+            multiline={true}
+            type="text"
+            value={searchTextboxIntermediateValue}
+            onChange={onSearchTextBoxChange}
+            ref={searchTextboxRef}            
           />
-          <FormControlLabel
-            value="top"
-            control={<Radio />}
-            label="Add as Content to Item"
-            labelPlacement="start"
-            name="addOptionRadio"
-          />
+          <Button name="clearButton"
+            variant="contained"
+            style={styles.clearButton}
+            onClick= {evt =>{
+              setSearchTextboxIntermediateValue('')
+              searchTextboxRef.current.focus();
+            }} > 
+            CLEAR 
+          </Button>
         </section>
+        
         <section name="AutocompletesSection" style={styles.AutocompletesSection}>
+          <Button name="addButton"
+            variant="contained"
+            style={styles.addButoon}
+            onClick={evt=> {
+              evt.preventDefault();
+              console.log('projectsAutocompleteIntermediaryValue', projectsAutocompleteIntermediaryValue)
+              var newID = uuidv4()
+              setDoc(doc(firestore, "lists", newID), {
+                label: searchTextboxIntermediateValue,
+                projectId: projectsAutocompleteIntermediaryValue['id']
+              })
+              .catch(c => console.log('error', c))
+              setViewButtonLinkIntermediaryValue(`/item/${newID}`)
+              setIsNotifySectionVisibleValue(true);
+              setNotifySectionMessageValue(`ADDED AS ITEM TO ${projectsAutocompleteIntermediaryValue.label}`);
+              setSearchTextboxIntermediateValue('')
+              searchTextboxRef.current.focus();  
+            }}
+          > 
+            ADD TO
+          </Button>
+          
           <CreatableSelect
             options={projects} 
             blurInputOnSelect
@@ -91,76 +119,6 @@ export default function SearchView({firestore, fuseInstance}) {
               }),
             }}
           />
-          {/* <Autocomplete name= "ItemAutocomplete"
-            sx ={styles.ItemAutocomplete}
-            //value={projectsAutocompleteIntermediaryValue}
-            //label="Item"
-            disablePortal
-            freeSolo
-            options={projects}
-            //autoComplete={true}
-            // onBlur={evt=> {
-            //   console.log('onBlur', evt.target.value)
-            //   if (evt.target.value == ''){
-            //     console.log('inbox project',projects,  projects.find(p=> p.isInbox == true))
-            //     setProjectsAutocompleteIntermediaryValue(projects.find(p=> (p.isInbox == true)))
-            //   }
-            // }}
-            // onChange= {(evt, newOption)=>{
-            //   if (evt.target.value == ''){
-            //     console.log('inbox project',projects,  projects.find(p=> p.isInbox == true))
-            //     setProjectsAutocompleteIntermediaryValue(projects.find(p=> (p.isInbox == true)))
-            //   }
-            //   console.log('newOption', newOption)
-            // }}
-            renderInput={(params) => 
-              <TextField {...params} />
-            }
-          /> */}
-        </section>
-        <section name="SearchTextboxSection" style={styles.SearchTextboxSection}>
-          <TextField name="SearchTextbox"
-            placeholder="Search or Add Item"
-            autoFocus
-            style={styles.searchTextbox}
-            multiline={true}
-            type="text"
-            value={searchTextboxIntermediateValue}
-            onChange={onSearchTextBoxChange}
-            ref={searchTextboxRef}            
-          />
-          <section name="buttonsSection" style={styles.buttonsSection}>
-            <Button name="addButton"
-              variant="contained"
-              style={styles.addButoon}
-              onClick={evt=> {
-                evt.preventDefault();
-                console.log('projectsAutocompleteIntermediaryValue', projectsAutocompleteIntermediaryValue)
-                var newID = uuidv4()
-                setDoc(doc(firestore, "lists", newID), {
-                  label: searchTextboxIntermediateValue,
-                  projectId: projectsAutocompleteIntermediaryValue['id']
-                })
-                .catch(c => console.log('error', c))
-                setViewButtonLinkIntermediaryValue(`/item/${newID}`)
-                setIsNotifySectionVisibleValue(true);
-                setNotifySectionMessageValue(`ADDED AS ITEM TO ${projectsAutocompleteIntermediaryValue.label}`);
-                setSearchTextboxIntermediateValue('')
-                searchTextboxRef.current.focus();  
-              }}
-            > 
-              ADD 
-            </Button>
-            <Button name="clearButton"
-              variant="contained"
-              style={styles.clearButton}
-              onClick= {evt =>{
-                setSearchTextboxIntermediateValue('')
-                searchTextboxRef.current.focus();
-              }} > 
-              CLEAR 
-            </Button>
-          </section>
         </section>
       </section>
       <NotifySection 
@@ -197,14 +155,6 @@ var styles = {
   ItemAutocomplete: {
     flex: 2,
   },
-  RadioButtonsSection: {
-    display: 'flex',
-    padding: 8,
-    fontWeight: 'black',
-    justifyContent: 'space-between',
-    fontWeight: 900,
-    fontSize: '14px'
-  },
   SearchTextboxSection: {
     display: 'flex',
     flexDirection: 'row',
@@ -217,12 +167,6 @@ var styles = {
     flex: 1,
     marginRight: 8
   },
-  buttonsSection: {
-    display: 'flex',
-    flexDirection: 'column',
-    width: 64,
-    marginRight: 16
-  },
   clearButton: {
     height: 40,
     width: 64,
@@ -231,8 +175,8 @@ var styles = {
   addButoon: {
     fontWeight: 900,
     height: 40,
-    width: 64,
-    margin: 4
+    width: 80,
+    marginRight: 4
   },
   ViewButton: {
     height: '100%',
