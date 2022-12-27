@@ -1,6 +1,7 @@
 //import {enableNetwork, disableNetwork, collection, onSnapshot, getDocsFromServer} from 'firebase/firestore';
 import React from 'react';
 import {useNavigate} from 'react-router-dom';
+import syncIcon from './images/sync-icon.svg';
 
 export default function AppHeader({label, firestore, isSyncing, onSyncButtonClick}) {
   let navigate = useNavigate();
@@ -22,7 +23,7 @@ export default function AppHeader({label, firestore, isSyncing, onSyncButtonClic
           {label}
         </span>
       </div>
-      <img src="/images/sync-icon.svg" alt="Sync Icon"
+      <img src={syncIcon} alt="Sync Icon"
         style={{
             animation: isSyncing ? 'animName 1.75s ease infinite' : '', 
             ...styles.syncButton

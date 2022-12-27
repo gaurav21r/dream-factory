@@ -1,5 +1,9 @@
 import {Link} from 'react-router-dom';
 import React from 'react';
+import projectIcon from './images/project-icon.svg';
+import addIcon from './images/add-icon.svg';
+import searchIcon from './images/search-icon.svg';
+
 export default function SearchBar({label, firestore}) {
   return (
     <div style={styles.container}>
@@ -13,7 +17,7 @@ export default function SearchBar({label, firestore}) {
             style={{
               ...styles.image
             }}
-            src="/images/project-icon.svg" 
+            src={projectIcon}
           />
         </div>
       </Link>
@@ -26,7 +30,7 @@ export default function SearchBar({label, firestore}) {
           style={{
             ...styles.image
           }}
-          src="/images/add-icon.svg"
+          src={addIcon}
         />
       </div>
       <Link to={`/search`}>
@@ -37,7 +41,7 @@ export default function SearchBar({label, firestore}) {
           <img   style={{
               ...styles.image
             }}
-            src="/images/search-icon.svg"
+            src={searchIcon}
           />
         </div>
       </Link>

@@ -377,7 +377,7 @@ pre::-webkit-scrollbar-thumb {
   margin-right: 2px;
 }
 
-.toolbar button.toolbar-item i.format {
+.toolbar button.toolbar-item img.format {
   background-size: contain;
   display: inline-block;
   height: 22px;
@@ -668,7 +668,7 @@ i.chevron-down {
 }
 
 .link-editor .button i,
-.actions i {
+.actions img {
   background-size: contain;
   display: inline-block;
   height: 20px;
