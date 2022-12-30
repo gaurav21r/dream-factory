@@ -36,14 +36,13 @@ h1 {
   flex: 1;
   height: 100%;
   color: #000;
-  line-height: 20px;
   text-align: left;
   display: flex;
   flex-direction: column;
   margin: 0;
   font-family: 'Proxima Nova', system-ui, -apple-system, BlinkMacSystemFont, ".SFNSText-Regular",
     sans-serif;
-  font-weight: 500;
+  font-weight: 400;
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -58,7 +57,6 @@ h1 {
 .editor-input {
   min-height: 150px;
   resize: none;
-  font-size: 16px;
   caret-color: rgb(5, 5, 5);
   position: relative;
   tab-size: 1;
