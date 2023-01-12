@@ -35,6 +35,7 @@ h1 {
   width: 100%;
   flex: 1;
   height: 100%;
+  overflow: hidden;
   color: #000;
   text-align: left;
   display: flex;
@@ -52,10 +53,13 @@ h1 {
   background: #fff;
   position: relative;
   flex: 1;
+  overflow: scroll;
 }
 
 .editor-input {
   min-height: 150px;
+  overflow: scroll;
+  flex: 1;
   resize: none;
   caret-color: rgb(5, 5, 5);
   position: relative;
