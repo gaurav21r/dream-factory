@@ -560,18 +560,6 @@ export default function ToolbarPlugin() {
       <button 
         className="toolbar-item spaced"
         onClick={() => {
-          editor.dispatchCommand(INDENT_CONTENT_COMMAND, undefined);
-        }}
-        aria-label="Indent List Item"
-      >
-        <img 
-          className="format indent" 
-          src={indentIcon}
-        />
-      </button>
-      <button 
-        className="toolbar-item spaced"
-        onClick={() => {
           editor.dispatchCommand(OUTDENT_CONTENT_COMMAND, undefined);
         }}
         aria-label="Outdent List Item"
@@ -579,6 +567,18 @@ export default function ToolbarPlugin() {
         <img 
           className="format outdent" 
           src={outdentIcon}
+        />
+      </button>
+      <button 
+        className="toolbar-item spaced"
+        onClick={() => {
+          editor.dispatchCommand(INDENT_CONTENT_COMMAND, undefined);
+        }}
+        aria-label="Indent List Item"
+      >
+        <img 
+          className="format indent" 
+          src={indentIcon}
         />
       </button>
       <button
