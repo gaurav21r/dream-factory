@@ -8,6 +8,8 @@ import {
   SELECTION_CHANGE_COMMAND,
   FORMAT_TEXT_COMMAND,
   FORMAT_ELEMENT_COMMAND,
+  INDENT_CONTENT_COMMAND,
+  OUTDENT_CONTENT_COMMAND,
   $getSelection,
   $isRangeSelection,
   $createParagraphNode,
@@ -40,6 +42,8 @@ import {
   getCodeLanguages
 } from "@lexical/code";
 
+import indentIcon from '../images/icons/indent.svg';
+import outdentIcon from '../images/icons/outdent.svg';
 import chevronDownIcon from '../images/icons/chevron-down.svg';
 import undoIcon from '../images/icons/arrow-counterclockwise.svg';
 import redoIcon from '../images/icons/arrow-clockwise.svg';
@@ -53,6 +57,7 @@ import leftAlignIcon from '../images/icons/text-left.svg';
 import centerAlignIcon from '../images/icons/text-center.svg';
 import rightAlignIcon from '../images/icons/text-right.svg';
 import justifyAlignIcon from '../images/icons/justify.svg';
+
 
 const LowPriority = 1;
 
@@ -552,6 +557,30 @@ export default function ToolbarPlugin() {
 
   return (
     <div className="toolbar" ref={toolbarRef}>
+      <button 
+        className="toolbar-item spaced"
+        onClick={() => {
+          editor.dispatchCommand(INDENT_CONTENT_COMMAND, undefined);
+        }}
+        aria-label="Indent List Item"
+      >
+        <img 
+          className="format indent" 
+          src={indentIcon}
+        />
+      </button>
+      <button 
+        className="toolbar-item spaced"
+        onClick={() => {
+          editor.dispatchCommand(OUTDENT_CONTENT_COMMAND, undefined);
+        }}
+        aria-label="Outdent List Item"
+      >
+        <img 
+          className="format outdent" 
+          src={outdentIcon}
+        />
+      </button>
       <button
         disabled={!canUndo}
         onClick={() => {
