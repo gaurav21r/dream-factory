@@ -14,7 +14,8 @@ export default function AppHeader({label, firestore, isSyncing, onSyncButtonClic
       >
         <span
           style={{
-            marginRight: '20px'
+            marginRight: '20px',
+            cursor: 'pointer'
           }}
           onClick={evt=> navigate(-1)}>
           {"<"}
