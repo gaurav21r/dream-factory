@@ -17,6 +17,8 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
+import { App } from '@capacitor/app';
+
 // Change isSyncing State (that changes animation)
 // Set Firestore to Online and check for data from the server
 function syncFirestore () {
@@ -75,6 +77,12 @@ const router = createBrowserRouter([
   }
 
 ]);
+
+// Only for Android app.
+App.addListener('backButton', data => {
+  window.history.back()
+});
+
 root.render(
   
   <StrictMode>

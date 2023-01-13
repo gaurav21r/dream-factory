@@ -6,6 +6,7 @@
   "main": "src/index.js",
   "dependencies": {
     "@capacitor/android": "^4.6.1",
+    "@capacitor/app": "^4.1.1",
     "@capacitor/core": "^4.6.1",
     "@emotion/react": "11.10.5",
     "@emotion/styled": "11.10.5",
