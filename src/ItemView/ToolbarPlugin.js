@@ -42,6 +42,8 @@ import {
   getCodeLanguages
 } from "@lexical/code";
 
+import {INSERT_EXCALIDRAW_COMMAND} from './editor-packages/ExcalidrawPlugin';
+
 import indentIcon from '../images/icons/indent.svg';
 import outdentIcon from '../images/icons/outdent.svg';
 import chevronDownIcon from '../images/icons/chevron-down.svg';
@@ -557,6 +559,18 @@ export default function ToolbarPlugin() {
 
   return (
     <div className="toolbar" ref={toolbarRef}>
+      <button 
+        className="toolbar-item spaced"
+        onClick={() => {
+          editor.dispatchCommand(INSERT_EXCALIDRAW_COMMAND, undefined);
+        }}
+        aria-label="Excalidraw"
+      >
+        <img 
+          className="format outdent" 
+          src={justifyAlignIcon}
+        />
+      </button>
       <button 
         className="toolbar-item spaced"
         onClick={() => {

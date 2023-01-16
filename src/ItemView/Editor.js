@@ -1,4 +1,5 @@
 import React from 'react';
+import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
@@ -16,6 +17,8 @@ import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPl
 import {OnChangePlugin} from '@lexical/react/LexicalOnChangePlugin';
 import { TRANSFORMERS } from "@lexical/markdown";
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import {ExcalidrawNode} from './editor-packages/ExcalidrawNode';
+import ExcalidrawPlugin from './editor-packages/ExcalidrawPlugin';
 import "./editor.css";
 export default function Editor({initialEditorState, onEditorStateChange, cutomEditorState}) {
   const editorConfig = {
@@ -38,7 +41,8 @@ export default function Editor({initialEditorState, onEditorStateChange, cutomEd
       TableCellNode,
       TableRowNode,
       AutoLinkNode,
-      LinkNode
+      LinkNode,
+      ExcalidrawNode
     ]
   };
   
@@ -49,6 +53,7 @@ export default function Editor({initialEditorState, onEditorStateChange, cutomEd
           <RichTextPlugin
             contentEditable={<ContentEditable className="editor-input" />}
             placeholder={<Placeholder />}
+            ErrorBoundary={LexicalErrorBoundary}
           />
           <HistoryPlugin />
           <OnChangePlugin 
@@ -59,8 +64,10 @@ export default function Editor({initialEditorState, onEditorStateChange, cutomEd
           <AutoFocusPlugin />
           <ListPlugin />
           <LinkPlugin />
+          <ExcalidrawPlugin />
           <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
           <CustomContentPlugin customEditorState={cutomEditorState} />
+          
         </div>
         <ToolbarPlugin />
       </div>
