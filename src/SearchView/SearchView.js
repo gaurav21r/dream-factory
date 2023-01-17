@@ -139,7 +139,7 @@ var styles = {
   },
   SearchResultsSection : {
     ...theme.card,
-    flex: 100
+    flex: 3
   },
 
   AutocompletesSection: {
@@ -162,6 +162,7 @@ var styles = {
     padding: 4,
     flexWrap: 'wrap',
     width: '100%',
+    flex: 1
   },
   searchTextbox: {
     flex: 1,

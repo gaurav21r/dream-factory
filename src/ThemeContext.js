@@ -11,7 +11,7 @@ export default {
     borderRadius: '6px',
     backgroundColor: 'white',
     boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.25), 0px 1px 3px 1px rgba(0, 0, 0, 0.25)',
-    flex: '1 1 auto',
+    flex: '1',
     overflow: 'auto',
     minHeight: 0,
     margin: '8px'
