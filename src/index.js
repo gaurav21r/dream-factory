@@ -10,7 +10,6 @@ import SearchView from "./SearchView/SearchView";
 import ItemView from "./ItemView/ItemView";
 import ProjectsView from "./ProjectsView/ProjectsView";
 import {firestore} from './firebase';
-import {enableNetwork, disableNetwork} from 'firebase/firestore'
 import fuseInstance from './data/search';
 import {
   createBrowserRouter,
@@ -19,18 +18,7 @@ import {
 
 import { App } from '@capacitor/app';
 
-// Change isSyncing State (that changes animation)
-// Set Firestore to Online and check for data from the server
-function syncFirestore () {
-  console.log('Syncing');  
-  enableNetwork(firestore);
-  setTimeout(() => {
-    disableNetwork(firestore)
-  }, 5000)
-}
 
-syncFirestore();
-setInterval(syncFirestore, 10000)
 
 const theme = createTheme({
   palette: {

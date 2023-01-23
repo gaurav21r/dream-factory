@@ -2,11 +2,22 @@
 import React from 'react';
 import {useNavigate} from 'react-router-dom';
 import syncIcon from './images/sync-icon.svg';
+import {enableNetwork, disableNetwork, getDocsFromServer, query, collection} from 'firebase/firestore'
 
-export default function AppHeader({label, firestore, isSyncing, onSyncButtonClick}) {
+export default function AppHeader({label, firestore}) {
   let navigate = useNavigate();
-  //var [isSyncing, setIsSyncing] = React.useState(false)
+  var [isSyncing, setIsSyncing] = React.useState(false)
   
+  function onSyncButtonClick (evt) {
+    console.log('Syncing')
+    setIsSyncing(true);
+    enableNetwork(firestore);
+    getDocsFromServer(query(collection(firestore, 'lists'))).then(snapshot => {
+      setIsSyncing(false);
+      disableNetwork(firestore)
+    })
+  }
+
   return (
     <div style={styles.container}>
       <div
