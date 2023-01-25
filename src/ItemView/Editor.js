@@ -20,7 +20,7 @@ import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext
 import {ExcalidrawNode} from './editor-packages/ExcalidrawNode';
 import ExcalidrawPlugin from './editor-packages/ExcalidrawPlugin';
 import "./editor.css";
-export default function Editor({initialEditorState, onEditorStateChange, cutomEditorState}) {
+export default function Editor({initialEditorState, onEditorStateChange}) {
   const editorConfig = {
     // The editor theme
     theme: ExampleTheme,
@@ -66,7 +66,7 @@ export default function Editor({initialEditorState, onEditorStateChange, cutomEd
           <LinkPlugin />
           <ExcalidrawPlugin />
           <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
-          <CustomContentPlugin customEditorState={cutomEditorState} />
+          <InspectStatePlugin />
           
         </div>
         <ToolbarPlugin />
@@ -79,18 +79,9 @@ export default function Editor({initialEditorState, onEditorStateChange, cutomEd
 // highly composable. Furthermore, you can lazy load plugins if
 // desired, so you don't pay the cost for plugins until you
 // actually use them.
-function CustomContentPlugin({customEditorState}) {
+function InspectStatePlugin() {
   const [editor] = useLexicalComposerContext();
-
-  React.useEffect(() => {
-    
-    const editorState = editor.parseEditorState(customEditorState);
-    editor.setEditorState(editorState);
-    // Focus the editor when the effect fires!
-    editor.focus();
-  }, [editor, customEditorState]);
-
-  return null;
+  window.editor = editor;
 }
 
 const ExampleTheme = {

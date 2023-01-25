@@ -11,7 +11,7 @@ import {setDoc, doc, getDoc} from 'firebase/firestore';
 
 export default function ItemView({firestore}) {
   const {itemId} = useParams();
-  var [item, setItem] = React.useState({})
+  var [item, setItem] = React.useState()
   //Controls the input to Lexical
   var emptyEditorState = `{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1}],"direction":null,"format":"","indent":0,"type":"root","version":1}}`
   //var headingAndNumbersState = `{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"This is React vs View","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"heading","version":1,"tag":"h1"},{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"React is more popular.","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"listitem","version":1,"value":1},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"React is based on better programming principles!","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"listitem","version":1,"value":2}],"direction":"ltr","format":"","indent":0,"type":"list","version":1,"listType":"number","start":1,"tag":"ol"}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}`
@@ -34,7 +34,7 @@ export default function ItemView({firestore}) {
   React.useEffect(() => {
     
     // Load content from firebase and set it as editor state
-    if (!item.id){
+    if (!item){
       getDoc(doc(firestore, "lists", itemId))
       .then(docSnap =>{
         if (docSnap.exists()) {
@@ -57,24 +57,27 @@ export default function ItemView({firestore}) {
   return(
 
     <div style={styles.container}>
-      <AppHeader label={item.label} firestore={firestore} />
-      <Editor
-        initialEditorState ={
-          customEditorState
-        }
-        cutomEditorState = {
-          customEditorState
-        }
-        onEditorStateChange = {
-          editorState => {
-            setItem({
-              ...item,
-              content: JSON.stringify(editorState)
-            })
-            saveEditorStateDebounced(JSON.stringify(editorState), item);
+      <AppHeader label={item ? item.label : 'Loading'} firestore={firestore} />
+      {
+        // Load <Editor> only when we get `item` from firestore
+        item ? 
+        <Editor
+          initialEditorState ={
+            customEditorState
           }
-        }
-      />
+          
+          onEditorStateChange = {
+            editorState => {
+              setItem({
+                ...item,
+                content: JSON.stringify(editorState)
+              })
+              saveEditorStateDebounced(JSON.stringify(editorState), item);
+            }
+          }
+        /> 
+          : null
+      }
       <SearchBar />
     </div>
   )
