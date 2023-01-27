@@ -38,7 +38,7 @@ onSnapshot(
       // Strip just the text content from the Lexical Editor State
       if (docData.content){
         var content = '';
-        for (const [key, value] of traverser(JSON.parse(docData.content))) {
+        for (const [key, value] of traverser(docData.content)) {
           if (key == 'text')
             content = content + ' ' + value;
         }

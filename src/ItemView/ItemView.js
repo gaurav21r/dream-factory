@@ -8,12 +8,13 @@ import {useParams} from 'react-router-dom';
 import _debounce from 'lodash/debounce';
 
 import {setDoc, doc, getDoc} from 'firebase/firestore';
+import {expandState, compactState} from './stateConvertor';
 
 export default function ItemView({firestore}) {
   const {itemId} = useParams();
   var [item, setItem] = React.useState()
   //Controls the input to Lexical
-  var emptyEditorState = `{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1}],"direction":null,"format":"","indent":0,"type":"root","version":1}}`
+  var emptyEditorState = {"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1}],"direction":null,"format":"","indent":0,"type":"root","version":1}}
   //var headingAndNumbersState = `{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"This is React vs View","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"heading","version":1,"tag":"h1"},{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"React is more popular.","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"listitem","version":1,"value":1},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"React is based on better programming principles!","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"listitem","version":1,"value":2}],"direction":"ltr","format":"","indent":0,"type":"list","version":1,"listType":"number","start":1,"tag":"ol"}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}`
   var [customEditorState, setCustomEditorState] = React.useState(
     emptyEditorState
@@ -21,7 +22,7 @@ export default function ItemView({firestore}) {
   
   // Debounce changes from editor to save to Firestore
   var saveEditorStateDebounced = React.useCallback(_debounce( (content, item) => {
-    console.log('Save Called!')
+    console.log('Save Called!', content)
     setDoc(doc(firestore, "lists", item.id), {
       content: content
     }, {
@@ -40,13 +41,9 @@ export default function ItemView({firestore}) {
         if (docSnap.exists()) {
           setItem({
             ...docSnap.data(),
-            id: itemId
+            id: itemId,
           });
-          if (docSnap.data().content){
-            setCustomEditorState(docSnap.data().content)
-          }
-        } else {
-          // doc.data() will be undefined in this case
+          console.log('item.content', docSnap.data().content)
         }
       })
       .catch(e=> console.log('error', e))
@@ -59,20 +56,28 @@ export default function ItemView({firestore}) {
     <div style={styles.container}>
       <AppHeader label={item ? item.label : 'Loading'} firestore={firestore} />
       {
+        
         // Load <Editor> only when we get `item` from firestore
-        item ? 
+        item  ? 
         <Editor
           initialEditorState ={
-            customEditorState
+          
+            (item.content && item.content.root) ?  JSON.stringify({
+              root: expandState(item.content.root)
+            }) : JSON.stringify(emptyEditorState)
           }
           
           onEditorStateChange = {
             editorState => {
+              var content = {
+                root: compactState(editorState.toJSON().root)
+              }
+              window.content = content;
               setItem({
                 ...item,
-                content: JSON.stringify(editorState)
+                content: content
               })
-              saveEditorStateDebounced(JSON.stringify(editorState), item);
+              saveEditorStateDebounced(content, item);
             }
           }
         /> 

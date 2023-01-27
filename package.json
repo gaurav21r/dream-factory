@@ -13,7 +13,7 @@
     "@excalidraw/excalidraw": "^0.14.0",
     "@lexical/react": "^0.7.6",
     "@mui/material": "5.10.12",
-    "firebase": "9.13.0",
+    "firebase": "^9.16.0",
     "fuse.js": "6.6.2",
     "lexical": "^0.7.6",
     "lodash": "4.17.21",
