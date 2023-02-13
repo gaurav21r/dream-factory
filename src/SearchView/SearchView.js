@@ -2,11 +2,10 @@ import "../styles.css";
 import React from 'react';
 import theme from '../ThemeContext'
 import AppHeader from "../AppHeader";
-import {TextField, Button} from "@mui/material";
+import {TextField, Button, Autocomplete, Popper} from "@mui/material";
 import SearchBar from '../SearchBar';
 import NotifySection from './NotifySection';
 import SearchResults from './SearchResults';
-import CreatableSelect from 'react-select/creatable';
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -25,7 +24,6 @@ export default function SearchView({firestore, fuseInstance}) {
   var [searchResults, setSearchResults] = React.useState([]);
   var  searchTextboxRef = React.useRef(null);
   React.useEffect(()=> {
-    console.log('In Use useEffect')    
     onSnapshot(
       query(collection(firestore, 'projects')),(snapshot) => {
         setProjects(snapshot.docs.map(d=> {
@@ -34,7 +32,6 @@ export default function SearchView({firestore, fuseInstance}) {
               ...d.data(),
               id: d.id
             })
-            console.log('I value', projectsAutocompleteIntermediaryValue);
           }
           return {
             ...d.data(),
@@ -107,7 +104,7 @@ export default function SearchView({firestore, fuseInstance}) {
             ADD TO
           </Button>
           
-          <CreatableSelect
+          {/* <CreatableSelect
             options={projects} 
             blurInputOnSelect
             openMenuOnFocus
@@ -120,6 +117,21 @@ export default function SearchView({firestore, fuseInstance}) {
 
               }),
             }}
+          /> */}
+          <Autocomplete 
+            freeSolo
+            name="ProjectsAutocomplete"
+            style={styles.ProjectsAutocomplete}
+            options={projects}
+            blurOnSelect
+            openOnFocus
+            value={projectsAutocompleteIntermediaryValue}
+            onChange = {(evt, newOption) => {
+              setProjectsAutocompleteIntermediaryValue(newOption)}
+            }
+            size="medium"
+            PopperComponent = {(params) => <Popper {...params} />}
+            renderInput= {(params) => <TextField {...params} />}
           />
           
         </section>
@@ -150,7 +162,7 @@ var styles = {
     padding: 8,
 
   },
-  ProjectAutocomplete: {
+  ProjectsAutocomplete: {
     flex: 1,
     backgroundColor: 'white',
     marginRight: 1
