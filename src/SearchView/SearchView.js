@@ -107,7 +107,7 @@ export default function SearchView({firestore, fuseInstance}) {
             ADD TO
           </Button>
           
-          /* <CreatableSelect
+          <CreatableSelect
             options={projects} 
             blurInputOnSelect
             openMenuOnFocus
