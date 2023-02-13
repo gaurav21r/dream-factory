@@ -402,8 +402,11 @@ function expandState (state) {
         else if (key == keyContractions['type']){
             result['type'] = type ? type: value;
         }
+        else if (keyExpansions[key]){
+          result[keyExpansions[key]] = value;
+        }
         else {
-            result[keyExpansions[key]] = value;
+            result[key] = value;
         }
     }
 
@@ -413,5 +416,8 @@ function expandState (state) {
 
     return result;
 }
+
+window.compactState = compactState;
+window.expandState = expandState;
 
 export {expandState, compactState}

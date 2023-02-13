@@ -92,24 +92,24 @@ export default function ExcalidrawModal({
     };
   }, [closeOnClickOutside, onDelete]);
 
-  // Keeping this uncommented causes the Excalidraw element to auto delete
-  // when any key is pressed. Refer to https://github.com/facebook/lexical/issues/3728
-  // useLayoutEffect(() => {
-  //   const currentModalRef = excaliDrawModelRef.current;
+  useLayoutEffect(() => {
+    const currentModalRef = excaliDrawModelRef.current;
 
-  //   const onKeyDown = (event: KeyboardEvent) => {
-  //     onDelete();
-  //   };
-  //   if (currentModalRef !== null) {
-  //     currentModalRef.addEventListener('keydown', onKeyDown);
-  //   }
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onDelete();
+      }
+    };
+    if (currentModalRef !== null) {
+      currentModalRef.addEventListener('keydown', onKeyDown);
+    }
 
-  //   return () => {
-  //     if (currentModalRef !== null) {
-  //       currentModalRef.removeEventListener('keydown', onKeyDown);
-  //     }
-  //   };
-  // }, [elements, onDelete]);
+    return () => {
+      if (currentModalRef !== null) {
+        currentModalRef.removeEventListener('keydown', onKeyDown);
+      }
+    };
+  }, [elements, onDelete]);
 
   const save = () => {
     if (elements.filter((el) => !el.isDeleted).length > 0) {
