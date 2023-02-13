@@ -250,24 +250,27 @@ export default function ProjectView({firestore}) {
         </section>
       </Modal>
       <section name="newItem" style= {theme.card}>  
-        <input
-          name="newListItemTextBox"
-          type="text" 
-          placeholder="Add an Item"
-          autoFocus
-          value={newListItemTextboxValue}
-          onKeyPress={evt => {
-            if (evt.key === 'Enter'){
-              onNewItemAddition({
-                label: evt.target.value
-              });
-              setNewListItemTextboxValue('')
-            }
-          }}
-          onChange= {evt => {
-            setNewListItemTextboxValue(evt.target.value)
-          }}
-          style={styles.input} />
+        <form>
+          <input
+            name="newListItemTextBox"
+            type="text" 
+            placeholder="Add an Item"
+            autoFocus
+            autoComplete="new-password"
+            value={newListItemTextboxValue}
+            onKeyPress={evt => {
+              if (evt.key === 'Enter'){
+                onNewItemAddition({
+                  label: evt.target.value
+                });
+                setNewListItemTextboxValue('')
+              }
+            }}
+            onChange= {evt => {
+              setNewListItemTextboxValue(evt.target.value)
+            }}
+            style={styles.input} />
+          </form>
       </section>
       
       <SearchBar />

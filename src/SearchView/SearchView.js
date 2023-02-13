@@ -24,15 +24,17 @@ export default function SearchView({firestore, fuseInstance}) {
   var [isNotifySectionVisibleValue, setIsNotifySectionVisibleValue] = React.useState(false);
   var [searchResults, setSearchResults] = React.useState([]);
   var  searchTextboxRef = React.useRef(null);
-  React.useEffect(()=> {    
+  React.useEffect(()=> {
+    console.log('In Use useEffect')    
     onSnapshot(
       query(collection(firestore, 'projects')),(snapshot) => {
         setProjects(snapshot.docs.map(d=> {
           if (d.data().isInbox){
             setProjectsAutocompleteIntermediaryValue({
               ...d.data(),
-              id: d.data 
+              id: d.id
             })
+            console.log('I value', projectsAutocompleteIntermediaryValue);
           }
           return {
             ...d.data(),
@@ -42,7 +44,7 @@ export default function SearchView({firestore, fuseInstance}) {
         
       }
     )
-  }, [firestore]);
+  }, []);
 
   function onSearchTextBoxChange(evt){
     setSearchTextboxIntermediateValue(evt.target.value)
@@ -105,7 +107,7 @@ export default function SearchView({firestore, fuseInstance}) {
             ADD TO
           </Button>
           
-          <CreatableSelect
+          /* <CreatableSelect
             options={projects} 
             blurInputOnSelect
             openMenuOnFocus
@@ -119,6 +121,7 @@ export default function SearchView({firestore, fuseInstance}) {
               }),
             }}
           />
+          
         </section>
       </section>
       <NotifySection 
