@@ -9,6 +9,7 @@ import ToolbarPlugin from "./ToolbarPlugin";
 import { HeadingNode, QuoteNode } from "@lexical/rich-text";
 import { TableCellNode, TableNode, TableRowNode } from "@lexical/table";
 import { ListItemNode, ListNode } from "@lexical/list";
+import {TabIndentationPlugin} from '@lexical/react/LexicalTabIndentationPlugin';
 import { CodeHighlightNode, CodeNode } from "@lexical/code";
 import { AutoLinkNode, LinkNode } from "@lexical/link";
 import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
@@ -42,7 +43,7 @@ export default function Editor({initialEditorState, onEditorStateChange}) {
       TableRowNode,
       AutoLinkNode,
       LinkNode,
-      ExcalidrawNode
+      ExcalidrawNode,
     ]
   };
   
@@ -66,6 +67,7 @@ export default function Editor({initialEditorState, onEditorStateChange}) {
           <LinkPlugin />
           <ExcalidrawPlugin />
           <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
+          <TabIndentationPlugin />
           <InspectStatePlugin />
           
         </div>
